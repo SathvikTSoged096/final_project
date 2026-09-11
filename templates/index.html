@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 650px;
+            margin-top: 60px;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn-custom {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: 600;
+        }
+        .btn-custom:hover {
+            background-color: #0b5ed7;
+            color: white;
+        }
+        #system_response {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <div class="card p-4">
+        <h2 class="text-center mb-4 text-primary">Emotion Detector</h2>
+        
+        <div class="mb-3">
+            <label for="textToAnalyze" class="form-label">Enter text for emotion analysis:</label>
+            <textarea class="form-control" id="textToAnalyze" rows="4" placeholder="Type your text here..."></textarea>
+        </div>
+
+        <button onclick="runEmotionAnalysis()" class="btn btn-custom w-100 py-2">Run Emotion Analysis</button>
+
+        <div class="mt-4">
+            <h5>System Response:</h5>
+            <div id="system_response" class="p-3 bg-light border rounded text-secondary">
+                Results will appear here...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function runEmotionAnalysis() {
+    let textToAnalyze = document.getElementById("textToAnalyze").value;
+    let responseDiv = document.getElementById("system_response");
+
+    if (!textToAnalyze.trim()) {
+        responseDiv.innerHTML = "Invalid text! Please try again!";
+        return;
+    }
+
+    responseDiv.innerHTML = "Analyzing...";
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                responseDiv.innerHTML = this.responseText;
+            } else {
+                responseDiv.innerHTML = "Error connecting to server. Please try again.";
+            }
+        }
+    };
+    // Ensure leading slash is present
+    xhttp.open("GET", "/emotionDetector?textToAnalyze=" + encodeURIComponent(textToAnalyze), true);
+    xhttp.send();
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
