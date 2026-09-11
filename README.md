@@ -1,4 +1,4 @@
-# Emotion Detection Web Application
+# Final Project: Emotion Detection Application
 
 A Python-based AI web application that analyzes user-provided text to detect underlying emotions using the **IBM Watson NLP EmotionPredict API** and serves results through a **Flask** web interface.
 
